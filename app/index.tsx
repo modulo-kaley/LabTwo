@@ -7,9 +7,9 @@ import ToDoList from "./ToDoList";
 // Each task has an id, text, and completed boolean 
 export default function Index() {
   const [tasks, setTasks ] = useState ([
-    { id: 1, text: 'Do laundry' , completed: false },
-    { id: 2, text: 'Go to gym' , completed: false },
-    { id: 3, text: 'Walk dog' , completed: true },
+    { id: 1, text: 'Do laundry' , incomplete: true },
+    { id: 2, text: 'Go to gym' , incomplete: true },
+    { id: 3, text: 'Walk dog' , incomplete: true },
   ]);
 
   // Tracks what the user is typing in the input field
@@ -24,7 +24,7 @@ export default function Index() {
     * Append the new task 
     * Date.now() = unique id
      */
-    setTasks([...tasks, { id: Date.now(), text: input, completed: false}]);
+    setTasks([...tasks, { id: Date.now(), text: input, incomplete: true}]);
     
     // clear the input field after adding 
     setInput('');
@@ -35,7 +35,7 @@ export default function Index() {
   */
   function handleToggleTask(id: number) {
     setTasks(tasks.map((task) =>
-    task.id === id ? {...task, completed: !task.completed } : task
+    task.id === id ? {...task, incomplete: !task.incomplete } : task
     ))
   }
   return (
