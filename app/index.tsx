@@ -7,7 +7,7 @@ import ToDoList from "./ToDoList";
 // Each task has an id, text, and completed boolean 
 export default function Index() {
   const [tasks, setTasks ] = useState ([
-    { id: 1, text: 'Do laundry' , completed: true },
+    { id: 1, text: 'Do laundry' , completed: false },
     { id: 2, text: 'Go to gym' , completed: false },
     { id: 3, text: 'Walk dog' , completed: true },
   ]);
