@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native';
-import ToDoForm from "./ToDoForm";
-import ToDoList from "./ToDoList";
+import ToDoForm from "../../components/ToDoForm";
+import ToDoList from "../../components/ToDoList";
+import { useTheme } from "../../context/ThemeContext";
 
 // Each task has an id, text, and completed boolean 
 export default function Index() {
@@ -38,8 +39,10 @@ export default function Index() {
     task.id === id ? {...task, incomplete: !task.incomplete } : task
     ))
   }
+  const { darkMode } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, darkMode && styles.containerDark]}>
       <ToDoList tasks={tasks} onToggle={handleToggleTask} />
 
       <ToDoForm input={input} onChangeText={setInput} onAdd={handleAddTask} />
@@ -50,5 +53,9 @@ export default function Index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+  },
+  containerDark: {
+    backgroundColor: "#121212",
   },
 });
