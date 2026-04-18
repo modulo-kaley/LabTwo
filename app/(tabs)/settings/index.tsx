@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import { View, Text, Switch, StyleSheet, Button, Alert } from "react-native";
 import { storage, STORAGE_KEYS } from "../../../lib/storage";
 import { useTheme } from "../../../context/ThemeContext";
+import { useAuth } from "../../../context/AuthContext";
 
 function AppCard({
   title,
@@ -28,6 +29,18 @@ function AppCard({
 export default function SettingsScreen() {
   const [notifications, setNotifications] = useState(false);
   const { darkMode, setDarkMode } = useTheme();
+  const { signOut, session } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (err) {
+      Alert.alert(
+        "Sign out failed",
+        err instanceof Error ? err.message : "Please try again."
+      );
+    }
+  };
 
   useEffect(() => {
     const load = async () => {
@@ -67,6 +80,15 @@ export default function SettingsScreen() {
         }
       />
       <Text style={styles.stored}>Stored: {darkMode.toString()}</Text>
+
+      {session && (
+        <View style={styles.signOutSection}>
+          <Text style={[styles.email, darkMode && styles.subtitleDark]}>
+            Signed in as {session.user.email}
+          </Text>
+          <Button title="Sign Out" onPress={handleSignOut} color="#c0392b" />
+        </View>
+      )}
     </View>
   );
 }
@@ -116,5 +138,16 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 13,
     color: "#444",
+  },
+  signOutSection: {
+    marginTop: 24,
+    paddingTop: 16,
+    borderTopWidth: 1,
+    borderTopColor: "#ccc",
+  },
+  email: {
+    fontSize: 13,
+    color: "#666",
+    marginBottom: 8,
   },
 });
